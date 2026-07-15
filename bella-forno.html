@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bella Forno — A Pizza Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --crust-dark:#2a1c12;
+    --crust-darker:#1d1309;
+    --tomato:#c1442d;
+    --tomato-deep:#9c3521;
+    --basil:#4f7a4a;
+    --mozz:#f6ecd9;
+    --gold:#d9a441;
+    --paper:#faf3e6;
+    --ink:#2a1c12;
+    --line: rgba(246,236,217,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:700; letter-spacing:-0.01em;}
+  a{color:inherit;}
+  img,svg{display:block; max-width:100%;}
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible{outline:3px solid var(--gold); outline-offset:3px;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 6vw;
+    background:rgba(29,19,9,0.92);
+    backdrop-filter: blur(6px);
+    color:var(--mozz);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-weight:700; font-size:1.15rem;}
+  .brand .dot{width:10px; height:10px; border-radius:50%; background:var(--tomato); box-shadow:0 0 0 3px rgba(193,68,45,0.25);}
+  .navlinks{display:flex; gap:26px; list-style:none; font-size:0.92rem; font-weight:500;}
+  .navlinks a{text-decoration:none; opacity:0.85; transition:opacity .2s;}
+  .navlinks a:hover{opacity:1; color:var(--gold);}
+  .navtoggle{display:none; background:none; border:0; color:var(--mozz); font-size:1.5rem;}
+  @media (max-width:760px){
+    .navlinks{display:none;}
+  }
+
+  /* HERO */
+  .hero{
+    background: radial-gradient(circle at 75% 20%, #3a2517 0%, var(--crust-dark) 45%, var(--crust-darker) 100%);
+    color:var(--mozz);
+    padding:70px 6vw 90px;
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap:40px;
+    align-items:center;
+    overflow:hidden;
+  }
+  @media (max-width:900px){ .hero{grid-template-columns:1fr; padding-top:40px;} }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Caveat', cursive; font-size:1.3rem; color:var(--gold);
+    margin-bottom:14px;
+  }
+  .eyebrow::before{content:"🍕"; font-size:1rem; filter:grayscale(1) brightness(2);}
+  .hero h1{
+    font-size:clamp(2.6rem, 6vw, 4.6rem);
+    line-height:0.98;
+    margin-bottom:18px;
+  }
+  .hero h1 em{color:var(--tomato); font-style:italic; font-weight:500;}
+  .hero p.lead{
+    font-size:1.15rem; max-width:46ch; color:rgba(246,236,217,0.85); margin-bottom:34px;
+  }
+  .stats{display:flex; gap:34px; flex-wrap:wrap;}
+  .stat b{display:block; font-family:'Fraunces',serif; font-size:2rem; color:var(--gold);}
+  .stat span{font-size:0.82rem; text-transform:uppercase; letter-spacing:0.06em; opacity:0.7;}
+
+  /* SVG PIZZA SIGNATURE */
+  .pizza-wrap{display:flex; justify-content:center; align-items:center;}
+  .pizza-svg{width:min(420px, 90%); height:auto;}
+  .slice-line{
+    stroke:var(--crust-darker);
+    stroke-width:3;
+    stroke-dasharray:220;
+    stroke-dashoffset:220;
+    animation:carve 1.1s ease forwards;
+  }
+  .slice-line:nth-child(1){animation-delay:.2s;}
+  .slice-line:nth-child(2){animation-delay:.4s;}
+  .slice-line:nth-child(3){animation-delay:.6s;}
+  .slice-line:nth-child(4){animation-delay:.8s;}
+  @keyframes carve{ to{stroke-dashoffset:0;} }
+  @media (prefers-reduced-motion: reduce){
+    .slice-line{animation:none; stroke-dashoffset:0;}
+  }
+  .pep{fill:var(--tomato-deep); opacity:0; animation:pop .3s ease forwards;}
+  .pep:nth-child(5){animation-delay:1.0s;}
+  .pep:nth-child(6){animation-delay:1.1s;}
+  .pep:nth-child(7){animation-delay:1.2s;}
+  .pep:nth-child(8){animation-delay:1.3s;}
+  .pep:nth-child(9){animation-delay:1.4s;}
+  .pep:nth-child(10){animation-delay:1.5s;}
+  @keyframes pop{ to{opacity:1;} }
+  @media (prefers-reduced-motion: reduce){ .pep{animation:none; opacity:1;} }
+
+  /* SECTION SHELL */
+  section.block{
+    padding:70px 6vw;
+    border-bottom:1px solid rgba(42,28,18,0.08);
+  }
+  section.block.dark{
+    background:var(--crust-dark); color:var(--mozz);
+    border-bottom:1px solid var(--line);
+  }
+  .inner{max-width:880px; margin:0 auto;}
+  .tag{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:0.8rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--tomato);
+    margin-bottom:14px;
+  }
+  section.block.dark .tag{color:var(--gold);}
+  .tag .num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:30px; height:30px; border-radius:50%;
+    background:var(--tomato); color:var(--mozz);
+    font-family:'Fraunces',serif; font-weight:700; font-size:0.85rem;
+  }
+  section.block.dark .tag .num{background:var(--gold); color:var(--crust-darker);}
+  h2.title{font-size:clamp(1.7rem, 3.4vw, 2.4rem); margin-bottom:20px;}
+  p{margin-bottom:14px; max-width:70ch;}
+  ul.checklist{list-style:none; margin:18px 0;}
+  ul.checklist li{position:relative; padding-left:26px; margin-bottom:10px;}
+  ul.checklist li::before{content:"🍕"; position:absolute; left:0; top:0; font-size:0.85rem;}
+
+  blockquote.callout{
+    margin:26px 0; padding:18px 22px;
+    border-left:4px solid var(--tomato);
+    background:rgba(193,68,45,0.06);
+    border-radius:0 8px 8px 0;
+    font-style:italic;
+  }
+  section.block.dark blockquote.callout{
+    border-left-color:var(--gold);
+    background:rgba(217,164,65,0.08);
+  }
+  blockquote.callout .label{
+    display:block; font-family:'Caveat',cursive; font-style:normal; font-weight:700;
+    font-size:1.15rem; color:var(--tomato); margin-bottom:4px;
+  }
+  section.block.dark blockquote.callout .label{color:var(--gold);}
+
+  /* TIMELINE */
+  .timeline{border-left:2px solid var(--tomato); margin-left:8px; padding-left:26px;}
+  .tl-item{position:relative; margin-bottom:26px;}
+  .tl-item::before{
+    content:""; position:absolute; left:-33px; top:4px;
+    width:12px; height:12px; border-radius:50%; background:var(--tomato);
+    box-shadow:0 0 0 4px var(--paper);
+  }
+  .tl-year{font-family:'Fraunces',serif; font-weight:700; color:var(--tomato); font-size:1.1rem;}
+
+  /* CARD GRID */
+  .grid{display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-top:22px;}
+  @media (max-width:640px){ .grid{grid-template-columns:1fr;} }
+  .card{
+    background:var(--mozz); color:var(--ink);
+    border:1px solid rgba(42,28,18,0.12);
+    border-radius:12px; padding:22px;
+  }
+  section.block.dark .card{background:rgba(246,236,217,0.06); color:var(--mozz); border-color:var(--line);}
+  .card h4{font-size:1.05rem; margin-bottom:8px; color:var(--tomato);}
+  section.block.dark .card h4{color:var(--gold);}
+
+  /* TABLE */
+  table{width:100%; border-collapse:collapse; margin-top:20px; font-size:0.95rem;}
+  th,td{padding:12px 14px; border-bottom:1px solid rgba(42,28,18,0.12); text-align:left;}
+  th{font-family:'Fraunces',serif; background:rgba(193,68,45,0.08); color:var(--tomato-deep);}
+
+  /* DID YOU KNOW GRID */
+  .facts{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:22px;}
+  @media (max-width:760px){ .facts{grid-template-columns:1fr 1fr;} }
+  @media (max-width:480px){ .facts{grid-template-columns:1fr;} }
+  .fact{background:rgba(246,236,217,0.07); border:1px solid var(--line); border-radius:10px; padding:18px;}
+  .fact .fn{font-family:'Fraunces',serif; color:var(--gold); font-size:1.5rem; margin-bottom:6px;}
+
+  /* QUIZ */
+  .quiz-q{background:var(--mozz); border:1px solid rgba(42,28,18,0.12); border-radius:12px; padding:24px; margin-bottom:20px;}
+  .quiz-q .qnum{font-family:'Caveat',cursive; font-size:1.1rem; color:var(--tomato); font-weight:700;}
+  .options{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0;}
+  @media (max-width:520px){ .options{grid-template-columns:1fr;} }
+  .opt{
+    background:var(--paper); border:1px solid rgba(42,28,18,0.15); border-radius:8px;
+    padding:10px 14px; cursor:pointer; font-size:0.94rem; text-align:left; font-family:inherit;
+    transition:background .15s, border-color .15s;
+  }
+  .opt:hover{border-color:var(--tomato);}
+  .opt.correct{background:rgba(79,122,74,0.18); border-color:var(--basil); font-weight:600;}
+  .opt.wrong{background:rgba(193,68,45,0.15); border-color:var(--tomato);}
+  .answer{font-size:0.88rem; color:var(--basil); font-weight:600; min-height:1.2em;}
+
+  /* FAQ */
+  .faq-item{border-bottom:1px solid var(--line); padding:16px 0;}
+  .faq-q{
+    display:flex; justify-content:space-between; align-items:center;
+    cursor:pointer; font-family:'Fraunces',serif; font-weight:700; font-size:1.05rem;
+    background:none; border:0; color:inherit; width:100%; text-align:left; padding:0;
+  }
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .faq-a p{margin-top:10px; opacity:0.85;}
+  .faq-item.open .faq-a{max-height:200px;}
+  .faq-plus{font-size:1.3rem; color:var(--gold); transition:transform .25s;}
+  .faq-item.open .faq-plus{transform:rotate(45deg);}
+
+  /* FOOTER */
+  footer{
+    background:var(--crust-darker); color:var(--mozz);
+    padding:60px 6vw 40px; text-align:center;
+  }
+  footer h3{font-size:1.6rem; margin-bottom:10px;}
+  footer p{margin:0 auto 26px; opacity:0.75; max-width:50ch;}
+  .foot-links{display:flex; justify-content:center; gap:26px; flex-wrap:wrap; margin-bottom:34px;}
+  .foot-links a{
+    text-decoration:none; color:var(--gold); font-weight:600; font-size:0.95rem;
+    border-bottom:1px solid transparent; transition:border-color .2s;
+  }
+  .foot-links a:hover{border-color:var(--gold);}
+  .foot-fine{font-size:0.8rem; opacity:0.5;}
+
+  .back-top{
+    position:fixed; bottom:24px; right:24px;
+    width:44px; height:44px; border-radius:50%;
+    background:var(--tomato); color:var(--mozz);
+    display:flex; align-items:center; justify-content:center;
+    text-decoration:none; font-size:1.2rem; box-shadow:0 6px 18px rgba(0,0,0,0.25);
+    opacity:0; pointer-events:none; transition:opacity .25s;
+  }
+  .back-top.show{opacity:1; pointer-events:auto;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand"><span class="dot"></span> Bella Forno</div>
+  <ul class="navlinks">
+    <li><a href="#what-is-pizza">Pizza</a></li>
+    <li><a href="#history">History</a></li>
+    <li><a href="#oven-dough">Oven &amp; Dough</a></li>
+    <li><a href="#styles">Styles</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div>
+    <div class="eyebrow">Field Guide — Est. 2014</div>
+    <h1>Bella <em>Forno</em></h1>
+    <p class="lead">A clear, structured introduction to dough, fire, and the craft of a real wood-fired pizza — from flour to first bite.</p>
+    <div class="stats">
+      <div class="stat"><b>8</b><span>signature pizzas</span></div>
+      <div class="stat"><b>900°F</b><span>oven temperature</span></div>
+      <div class="stat"><b>90 sec</b><span>bake time</span></div>
+      <div class="stat"><b>24 hr</b><span>dough rest</span></div>
+    </div>
+  </div>
+  <div class="pizza-wrap">
+    <svg class="pizza-svg" viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="130" fill="#e8b866"/>
+      <circle cx="150" cy="150" r="112" fill="#c1442d"/>
+      <circle cx="150" cy="150" r="104" fill="#f0d488"/>
+      <circle class="pep" cx="150" cy="90" r="12" />
+      <circle class="pep" cx="195" cy="120" r="12" />
+      <circle class="pep" cx="195" cy="180" r="12" />
+      <circle class="pep" cx="150" cy="210" r="12" />
+      <circle class="pep" cx="105" cy="180" r="12" />
+      <circle class="pep" cx="105" cy="120" r="12" />
+      <line class="slice-line" x1="150" y1="150" x2="150" y2="20" />
+      <line class="slice-line" x1="150" y1="150" x2="269" y2="85" />
+      <line class="slice-line" x1="150" y1="150" x2="269" y2="215" />
+      <line class="slice-line" x1="150" y1="150" x2="150" y2="280" />
+    </svg>
+  </div>
+</header>
+
+<section class="block" id="why">
+  <div class="inner">
+    <div class="tag"><span class="num">00</span> Why We Fire the Oven</div>
+    <h2 class="title">Why Make Pizza the Slow Way?</h2>
+    <p>Have you ever walked past a pizzeria and been stopped by the smell of dough hitting a hot stone?</p>
+    <p><strong>Real pizza</strong> starts long before the oven — with flour, water, salt, and time. It takes patience, a hot fire, and years of practice to get right.</p>
+    <p>Doing it the slow way matters because it helps us:</p>
+    <ul class="checklist">
+      <li>Bring out real <strong>flavor</strong> from simple ingredients</li>
+      <li>Support <strong>local</strong> farms and suppliers</li>
+      <li>Keep an old <strong>craft</strong> alive</li>
+      <li>Bring people together around <strong>one table</strong></li>
+    </ul>
+    <blockquote class="callout"><span class="label">Reflect</span>Every great pizza begins with a simple question — what if we let the dough take its time?</blockquote>
+  </div>
+</section>
+
+<section class="block dark" id="what-is-pizza">
+  <div class="inner">
+    <div class="tag"><span class="num">01</span> What Is Real Pizza?</div>
+    <h2 class="title">What Makes Pizza "Real"?</h2>
+    <p>Real pizza is a <strong>balance of four things</strong> — dough, sauce, cheese, and fire. It officially became a protected tradition in <strong>1984</strong>, when Naples set rules for what counts as true Neapolitan pizza.</p>
+    <p>A proper pie is different from a frozen one in a few key ways:</p>
+    <ul class="checklist">
+      <li>The dough is <strong>hand-stretched</strong>, never rolled with a pin</li>
+      <li>There's <strong>no sogginess</strong>, since the crust is baked fast at very high heat</li>
+      <li>The center stays <strong>slightly soft</strong>, called "al dente" in Italian pizza tradition</li>
+    </ul>
+    <blockquote class="callout"><span class="label">Note</span>Pizza isn't just cheese and bread — it carries the flour, the water, and even the air of the kitchen it's made in.</blockquote>
+  </div>
+</section>
+
+<section class="block" id="history">
+  <div class="inner">
+    <div class="tag"><span class="num">02</span> History of Pizza</div>
+    <h2 class="title">History of Pizza</h2>
+    <p>People have topped flatbread for centuries. Here's how it became the dish we know today.</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-year">1889</div><div>The <strong>Margherita</strong> pizza is created in Naples, topped in the colors of the Italian flag.</div></div>
+      <div class="tl-item"><div class="tl-year">1905</div>Lombardi's opens as <strong>America's first pizzeria</strong>, in New York City.</div>
+      <div class="tl-item"><div class="tl-year">1943</div>The first <strong>deep-dish</strong> pizza is served in Chicago.</div>
+      <div class="tl-item"><div class="tl-year">1958</div><strong>Pizza Hut</strong> opens, making pizza a fast, casual meal nationwide.</div>
+      <div class="tl-item"><div class="tl-year">1984</div>Naples establishes official rules for true <strong>Neapolitan pizza</strong>.</div>
+      <div class="tl-item"><div class="tl-year">2014</div><strong>Bella Forno</strong> opens its doors, built around one wood-fired oven.</div>
+    </div>
+    <blockquote class="callout"><span class="label">Takeaway</span>Pizza's history shows that a simple idea, done well, can travel the whole world.</blockquote>
+  </div>
+</section>
+
+<section class="block dark" id="oven-dough">
+  <div class="inner">
+    <div class="tag"><span class="num">03</span> The Oven &amp; The Dough</div>
+    <h2 class="title">Tools of the Trade</h2>
+    <p>Every pizza depends on equipment built to hold and move serious heat.</p>
+    <div class="grid">
+      <div class="card"><h4>Wood-Fired Oven</h4>Reaches 900°F, built to bake a pizza in under two minutes.</div>
+      <div class="card"><h4>The Peel</h4>A long-handled paddle used to slide pizza in and out of the fire.</div>
+      <div class="card"><h4>Stone Deck</h4>Stores heat evenly, so the crust cooks without burning the toppings.</div>
+      <div class="card"><h4>Dough Mixer</h4>Blends flour, water, salt, and yeast into a smooth, elastic dough.</div>
+    </div>
+    <blockquote class="callout"><span class="label">Key fact</span>Neapolitan dough must rest at least 8 hours to fully develop its flavor and texture.</blockquote>
+  </div>
+</section>
+
+<section class="block" id="pizzaiolo">
+  <div class="inner">
+    <div class="tag"><span class="num">04</span> Life of a Pizzaiolo</div>
+    <h2 class="title">A Day in the Life of Our Pizzaiolo</h2>
+    <p>Becoming a pizzaiolo takes years of practice, and a shift behind the oven looks nothing like a quiet kitchen.</p>
+    <ul class="checklist">
+      <li>They <strong>mix dough</strong> the night before every shift</li>
+      <li>They <strong>stretch by hand</strong>, never with a rolling pin</li>
+      <li>They work just <strong>18 inches</strong> from a 900°F flame</li>
+      <li>They turn each pizza <strong>every 20 seconds</strong> in the oven</li>
+      <li>They read the crust by <strong>color</strong>, not by a timer</li>
+    </ul>
+    <blockquote class="callout"><span class="label">Did you know</span>A skilled pizzaiolo can shape a ball of dough into a stretched round in under 30 seconds.</blockquote>
+  </div>
+</section>
+
+<section class="block dark" id="styles">
+  <div class="inner">
+    <div class="tag"><span class="num">05</span> Exploring Pizza Styles</div>
+    <h2 class="title">Three Styles, Three Stories</h2>
+    <div class="grid">
+      <div class="card">
+        <h4>Neapolitan</h4>
+        Soft, thin, and slightly charred, baked in under 90 seconds. Topped simply, with tomato, mozzarella, and basil.
+      </div>
+      <div class="card">
+        <h4>New York</h4>
+        Wide, foldable slices with a crisp edge, baked in a deck oven. Built for eating on the go.
+      </div>
+    </div>
+    <blockquote class="callout"><span class="label">Looking ahead</span>Bella Forno is developing a Chicago deep-dish night, coming later this year.</blockquote>
+  </div>
+</section>
+
+<section class="block" id="future">
+  <div class="inner">
+    <div class="tag"><span class="num">06</span> The Future of Bella Forno</div>
+    <h2 class="title">What's Next</h2>
+    <ul class="checklist">
+      <li><strong>Pizza-making classes</strong> — guests shaping their own dough</li>
+      <li><strong>A second oven</strong> — cutting wait times on busy nights</li>
+      <li><strong>Seasonal pies</strong> — built around what's fresh each month</li>
+      <li><strong>A garden out back</strong> — growing our own basil and tomatoes</li>
+      <li><strong>Delivery by bike</strong> — keeping pizzas hot across the neighborhood</li>
+    </ul>
+    <blockquote class="callout"><span class="label">Inspiration</span>The next great pizzaiolo might be the kid watching through our front window right now.</blockquote>
+  </div>
+</section>
+
+<section class="block dark" id="benefits">
+  <div class="inner">
+    <div class="tag"><span class="num">07</span> Why Pizza Matters</div>
+    <h2 class="title">More Than Just Dinner</h2>
+    <p>A good pizza shop isn't only about a great slice — it shapes the block it sits on.</p>
+    <ul class="checklist">
+      <li>A place for <strong>neighbors</strong> to gather</li>
+      <li>Steady work for <strong>local</strong> farmers and bakers</li>
+      <li>A low-cost way to feed a <strong>family</strong> well</li>
+      <li>A shared meal that needs <strong>no utensils</strong></li>
+      <li>A reason to slow down at the end of a busy day</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="steps">
+  <div class="inner">
+    <div class="tag"><span class="num">08</span> Steps of Making a Pizza</div>
+    <h2 class="title">From Order to Table</h2>
+    <ol style="padding-left:20px;">
+      <li style="margin-bottom:10px;"><strong>Order taken</strong> — your pizza and toppings are chosen</li>
+      <li style="margin-bottom:10px;"><strong>Dough stretched</strong> — shaped by hand into a round base</li>
+      <li style="margin-bottom:10px;"><strong>Toppings added</strong> — sauce, cheese, and your chosen extras</li>
+      <li style="margin-bottom:10px;"><strong>Fired in the oven</strong> — baked at 900°F in under two minutes</li>
+      <li style="margin-bottom:10px;"><strong>Sliced and served</strong> — straight from the peel to your table</li>
+    </ol>
+  </div>
+</section>
+
+<section class="block dark" id="carry">
+  <div class="inner">
+    <div class="tag"><span class="num">09</span> What Our Pizzaiolos Use</div>
+    <h2 class="title">Behind the Counter</h2>
+    <ul class="checklist">
+      <li>Wooden peel</li>
+      <li>Dough scraper</li>
+      <li>Flour scoop</li>
+      <li>Infrared thermometer</li>
+      <li>Pizza cutter wheel</li>
+      <li>Canvas apron</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="compare">
+  <div class="inner">
+    <div class="tag"><span class="num">10</span> Style Comparison</div>
+    <h2 class="title">Neapolitan vs New York vs Chicago</h2>
+    <table>
+      <tr><th>Feature</th><th>Neapolitan</th><th>New York</th><th>Chicago</th></tr>
+      <tr><td>Crust</td><td>Thin, soft center</td><td>Thin, crisp edge</td><td>Thick, buttery</td></tr>
+      <tr><td>Bake time</td><td>~90 sec</td><td>~8 min</td><td>~45 min</td></tr>
+      <tr><td>Sauce</td><td>Under cheese</td><td>Under cheese</td><td>On top</td></tr>
+      <tr><td>Eaten how?</td><td>Fork &amp; knife</td><td>Folded slice</td><td>Fork &amp; knife</td></tr>
+      <tr><td>Iconic pie</td><td>Margherita</td><td>Plain cheese</td><td>Deep dish</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="block dark" id="facts">
+  <div class="inner">
+    <div class="tag"><span class="num">11</span> Did You Know?</div>
+    <h2 class="title">Slice-Sized Facts</h2>
+    <div class="facts">
+      <div class="fact"><div class="fn">01</div>The word "pizza" first appeared in writing in <strong>997 AD</strong>, in Italy.</div>
+      <div class="fact"><div class="fn">02</div>The world's largest pizza was over <strong>13,000 square feet</strong>.</div>
+      <div class="fact"><div class="fn">03</div>Americans eat about <strong>350 slices</strong> of pizza every second.</div>
+      <div class="fact"><div class="fn">04</div>Hawaiian pizza was actually invented in <strong>Canada</strong>, in 1962.</div>
+      <div class="fact"><div class="fn">05</div>A true Neapolitan oven never drops below <strong>800°F</strong>.</div>
+      <div class="fact"><div class="fn">06</div>October 5th is celebrated as world <strong>Pizza Day</strong> in Naples.</div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="quiz">
+  <div class="inner">
+    <div class="tag"><span class="num">12</span> Knowledge Check</div>
+    <h2 class="title">Test What You Learned</h2>
+
+    <div class="quiz-q">
+      <div class="qnum">Question 1 of 3</div>
+      <p>Where was the Margherita pizza created?</p>
+      <div class="options" data-answer="Naples">
+        <button class="opt">Rome</button>
+        <button class="opt">Naples</button>
+        <button class="opt">Chicago</button>
+        <button class="opt">New York</button>
+      </div>
+      <div class="answer"></div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="qnum">Question 2 of 3</div>
+      <p>What tool is used to slide pizza in and out of the oven?</p>
+      <div class="options" data-answer="The peel">
+        <button class="opt">The peel</button>
+        <button class="opt">The scraper</button>
+        <button class="opt">The mixer</button>
+        <button class="opt">The cutter</button>
+      </div>
+      <div class="answer"></div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="qnum">Question 3 of 3</div>
+      <p>About how long does a Neapolitan pizza take to bake?</p>
+      <div class="options" data-answer="90 seconds">
+        <button class="opt">45 minutes</button>
+        <button class="opt">8 minutes</button>
+        <button class="opt">90 seconds</button>
+        <button class="opt">20 minutes</button>
+      </div>
+      <div class="answer"></div>
+    </div>
+  </div>
+</section>
+
+<section class="block dark" id="faq">
+  <div class="inner">
+    <div class="tag"><span class="num">13</span> Frequently Asked Questions</div>
+    <h2 class="title">FAQ</h2>
+
+    <div class="faq-item">
+      <button class="faq-q">Do you have gluten-free dough? <span class="faq-plus">+</span></button>
+      <div class="faq-a"><p>Yes. We make a small batch of gluten-free dough fresh each morning — just ask when you order.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Why is Neapolitan pizza so soft in the middle? <span class="faq-plus">+</span></button>
+      <div class="faq-a"><p>The short, hot bake keeps the center from drying out, which is traditional in Naples and meant to be eaten with a fork and knife.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Can I watch my pizza being made? <span class="faq-plus">+</span></button>
+      <div class="faq-a"><p>Absolutely. Our oven sits right at the front counter, so you can watch the whole process from stretch to slice.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Do you deliver? <span class="faq-plus">+</span></button>
+      <div class="faq-a"><p>Yes, within a 3-mile radius. Orders placed by phone or online usually arrive within 35–40 minutes.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="conclusion">
+  <div class="inner">
+    <div class="tag"><span class="num">14</span> Conclusion</div>
+    <h2 class="title">One Oven, One Neighborhood</h2>
+    <p>Pizza is a simple food made from <strong>flour, fire, and patience</strong>. From the first Margherita in Naples to the pie we slide out of our oven tonight, it's always been about the same thing — bringing people to one table.</p>
+    <blockquote class="callout"><span class="label">Remember</span>Every great pizzaiolo started as someone who just loved a good slice — just like you.</blockquote>
+    <p>Stop in, watch the fire, and stay for the slice. You might just find your new favorite pie.</p>
+  </div>
+</section>
+
+<footer>
+  <h3>Bella Forno</h3>
+  <p>Wood-fired pizza, made the slow way, since 2014.</p>
+  <div class="foot-links">
+    <a href="#">Order Online →</a>
+    <a href="#">Find Us →</a>
+    <a href="#">Instagram →</a>
+  </div>
+  <p class="foot-fine">A Field Guide · Made for anyone curious about a real slice.</p>
+</footer>
+
+<a href="#" class="back-top" id="backTop" aria-label="Back to top">↑</a>
+
+<script>
+  // Quiz interactivity
+  document.querySelectorAll('.options').forEach(group => {
+    const correct = group.getAttribute('data-answer');
+    const answerEl = group.nextElementSibling;
+    group.querySelectorAll('.opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        group.querySelectorAll('.opt').forEach(b => b.classList.remove('correct','wrong'));
+        if(btn.textContent.trim() === correct){
+          btn.classList.add('correct');
+          answerEl.textContent = 'Correct! ' + correct + ' is right.';
+        } else {
+          btn.classList.add('wrong');
+          group.querySelectorAll('.opt').forEach(b=>{
+            if(b.textContent.trim() === correct) b.classList.add('correct');
+          });
+          answerEl.textContent = 'Not quite — the correct answer is ' + correct + '.';
+        }
+      });
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      q.parentElement.classList.toggle('open');
+    });
+  });
+
+  // Back to top button
+  const backTop = document.getElementById('backTop');
+  window.addEventListener('scroll', () => {
+    backTop.classList.toggle('show', window.scrollY > 600);
+  });
+</script>
+
+</body>
+</html>
